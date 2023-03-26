@@ -17,8 +17,6 @@ const char m_path = '4'; //explored on path
 const char m_start = '2'; //starting point
 const char m_end = '3'; //ending point
 const char m_reserved = '5'; //is a reserved symbol, it will be used as an unexplored id
-const string m_line = "--------------------------------------------------";
-
 
 /**
 *Class for solving mazes

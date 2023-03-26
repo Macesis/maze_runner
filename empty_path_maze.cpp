@@ -40,50 +40,59 @@ int empty_path_maze::proximity(int x, int y) { //detects wether the point is bli
     //Problems:
     // leaves entire chambers as paths
     // loops inside the maze will remain marked as path (even when inaccessible from neither start nor finish)
+    char& current = this->map_out[y * xs + x];
+    if (current != m_wall && current != m_start && current != m_end) {
 
-    if (this->map_out[y * xs + x] != m_wall && this->map_out[y * xs + x] != m_start && this->map_out[y * xs + x] != m_end) {
+        char above = this->map_out[(y - 1) * xs + x];
+        char left = this->map_out[y * xs + x - 1];
+        char right = this->map_out[y * xs + x + 1];
+        char below = this->map_out[(y + 1) * xs + x];
+
         int walls = 0;
-        if (this->map_out[(y - 1) * xs + x] == m_wall || this->map_out[(y - 1) * xs + x] == m_corr) { //is wall above?
+        if (above == m_wall || above == m_corr) { //is wall above?
             walls++;
         }
 
-        if (this->map_out[y * xs + x - 1] == m_wall || this->map_out[y * xs + x - 1] == m_corr) { //is wall left?        
+        if (left == m_wall || left == m_corr) { //is wall left?        
             walls++;
         }
-        if (this->map_out[y * xs + x + 1] == m_wall || this->map_out[y * xs + x + 1] == m_corr) { //is wall right?        
+        if (right == m_wall || right == m_corr) { //is wall right?        
             walls++;
         }
 
-        if (this->map_out[(y + 1) * xs + x] == m_wall || this->map_out[(y + 1) * xs + x] == m_corr) { //is wall below?  
+        if (below == m_wall || below == m_corr) { //is wall below?  
             walls++;
         }
 
         //visualization output for testing below
         if(debug){ 
-            cout << endl << "up" << this->map_out[(y - 1) * xs + x] << endl;
-            cout << this->map_out[y * xs + x - 1] << "<<" << this->map_out[y * xs + x];
-            cout << ">>" << this->map_out[y * xs + x + 1] << endl;
-            cout << "down" << this->map_out[(y + 1) * xs + x];
+            cout << endl << "up" << above << endl;
+            cout << left << "<<";
+            cout << current;
+            cout << ">>" << right << endl;
+            cout << "down" << below;
             cout << endl << "walls: " << walls;
         }
         if (walls > 2) { //more than 2 walls
             //cout << "blind" << endl;
-            this->map_out[y * xs + x] = m_corr; //set to corridor (blind cannot be blind)
-            if (this->map_out[(y - 1) * xs + x] == m_path) { //is path above?
+            current = m_corr; //set to corridor (blind cannot be blind)
+            if (above == m_path) { //is path above?
                 proximity(x, y - 1); //recursive call for cell that is above
                 return 2;
             }
-            if (this->map_out[(y + 1) * xs + x] == m_path) { //is path below?
-                proximity(x, y + 1); //recursive call for cell that is below
-                return 4;
-            }
-            if (this->map_out[y * xs + x - 1] == m_path) { //is path left?
+
+            if (left == m_path) { //is path left?
                 proximity(x - 1, y); //recursive call for cell that is left
                 return 1;
             }
-            if (this->map_out[y * xs + x + 1] == m_path) { //is path right?
+            if (right == m_path) { //is path right?
                 proximity(x + 1, y); //recursive call for cell that is right
                 return 3;
+            }
+
+            if (below == m_path) { //is path below?
+                proximity(x, y + 1); //recursive call for cell that is below
+                return 4;
             }
         }
         else {

@@ -59,15 +59,21 @@ void maze::print(bool exp) { //print maze (exp == 0 => map ; exp == 1 => map_out
                     break;
 
                 case m_path: //if the character is path, print |
-                    to_cout = "\33[1;34m|\33[0m";
+                    to_cout = "\33[1;34m";
+                    to_cout += "|";
+                    to_cout += "\33[0m";
                     break;
 
                 case m_start: //if the character is start, print >;
-                    to_cout = "\33[1;32m>\33[0m";
+                    to_cout = "\33[1;32m";
+                    to_cout += ">";
+                    to_cout += "\33[0m";
                     break;
 
                 case m_end: //if the character is path, print <
-                    to_cout = "\33[1;31m<\33[0m";                         
+                    to_cout = "\33[1;31m";
+                    to_cout += "<";
+                    to_cout += "\33[0m";                         
                     break;
 
                 default: //if no special character assigned, print original character

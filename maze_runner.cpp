@@ -6,6 +6,8 @@
 
 using namespace std;
 
+const string m_line = "--------------------------------------------------";
+
 int main()
 {
     empty_path_maze* blud = new empty_path_maze("../vstup.txt",false);
