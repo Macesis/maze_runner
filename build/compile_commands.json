@@ -1,0 +1,27 @@
+[
+{
+  "directory": "/mnt/c/Users/Maces/Documents/VSB/2L/cpp_advanced/proj/pokus1/build",
+  "command": "/usr/bin/g++    -g -g -Wall -Wextra -pedantic -o CMakeFiles/maze_run.dir/maze_runner.cpp.o -c /mnt/c/Users/Maces/Documents/VSB/2L/cpp_advanced/proj/pokus1/maze_runner.cpp",
+  "file": "/mnt/c/Users/Maces/Documents/VSB/2L/cpp_advanced/proj/pokus1/maze_runner.cpp"
+},
+{
+  "directory": "/mnt/c/Users/Maces/Documents/VSB/2L/cpp_advanced/proj/pokus1/build",
+  "command": "/usr/bin/g++    -g -g -Wall -Wextra -pedantic -o CMakeFiles/maze_run.dir/maze.cpp.o -c /mnt/c/Users/Maces/Documents/VSB/2L/cpp_advanced/proj/pokus1/maze.cpp",
+  "file": "/mnt/c/Users/Maces/Documents/VSB/2L/cpp_advanced/proj/pokus1/maze.cpp"
+},
+{
+  "directory": "/mnt/c/Users/Maces/Documents/VSB/2L/cpp_advanced/proj/pokus1/build",
+  "command": "/usr/bin/g++    -g -g -Wall -Wextra -pedantic -o CMakeFiles/maze_run.dir/empty_path_maze.cpp.o -c /mnt/c/Users/Maces/Documents/VSB/2L/cpp_advanced/proj/pokus1/empty_path_maze.cpp",
+  "file": "/mnt/c/Users/Maces/Documents/VSB/2L/cpp_advanced/proj/pokus1/empty_path_maze.cpp"
+},
+{
+  "directory": "/mnt/c/Users/Maces/Documents/VSB/2L/cpp_advanced/proj/pokus1/build",
+  "command": "/usr/bin/g++    -g -g -Wall -Wextra -pedantic -o CMakeFiles/maze_run.dir/breadth_first_maze.cpp.o -c /mnt/c/Users/Maces/Documents/VSB/2L/cpp_advanced/proj/pokus1/breadth_first_maze.cpp",
+  "file": "/mnt/c/Users/Maces/Documents/VSB/2L/cpp_advanced/proj/pokus1/breadth_first_maze.cpp"
+},
+{
+  "directory": "/mnt/c/Users/Maces/Documents/VSB/2L/cpp_advanced/proj/pokus1/build",
+  "command": "/usr/bin/g++    -g -g -Wall -Wextra -pedantic -o CMakeFiles/test_gener.dir/test_gener.cpp.o -c /mnt/c/Users/Maces/Documents/VSB/2L/cpp_advanced/proj/pokus1/test_gener.cpp",
+  "file": "/mnt/c/Users/Maces/Documents/VSB/2L/cpp_advanced/proj/pokus1/test_gener.cpp"
+}
+]

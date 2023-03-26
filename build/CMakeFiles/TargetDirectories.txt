@@ -1,0 +1,4 @@
+/mnt/c/Users/Maces/Documents/VSB/2L/cpp_advanced/proj/pokus1/build/CMakeFiles/maze_run.dir
+/mnt/c/Users/Maces/Documents/VSB/2L/cpp_advanced/proj/pokus1/build/CMakeFiles/test_gener.dir
+/mnt/c/Users/Maces/Documents/VSB/2L/cpp_advanced/proj/pokus1/build/CMakeFiles/edit_cache.dir
+/mnt/c/Users/Maces/Documents/VSB/2L/cpp_advanced/proj/pokus1/build/CMakeFiles/rebuild_cache.dir

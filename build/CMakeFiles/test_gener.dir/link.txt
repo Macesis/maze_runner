@@ -1,0 +1,1 @@
+/usr/bin/g++  -g -g CMakeFiles/test_gener.dir/test_gener.cpp.o -o test_gener 
