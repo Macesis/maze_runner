@@ -2,10 +2,9 @@
 
 using namespace std;
 
-maze::maze(string input_path, bool debug) { //constructor for maze
+maze::maze(string input_path, bool debug) : debug(debug) { //constructor for maze
 	
     this->in_stream.open(input_path); //open input stream
-    this->debug = debug; //set debug mode
 
     string line; //create a string buffer to store currently processed line
 
@@ -32,6 +31,45 @@ maze::maze(string input_path, bool debug) { //constructor for maze
     }
 }
 
+maze::maze(int x_size, int y_size, int start_x, int start_y, int end_x, int end_y, bool debug) : xs(x_size), ys(y_size), debug(debug) {
+    start_x--;
+    start_y--;
+    end_x--;
+    end_y--;
+
+    if(start_x >= xs || start_x < 0 || start_y >= ys || start_y < 0 ||          //out of bounds 
+    (start_x == 0 && start_y == 0) || (start_x == xs-1 && start_y == 0) ||      //upper corners
+    (start_x == 0 && start_y == ys-1) || (start_x == xs-1 && start_y == ys-1)   //lower corners
+    ){
+        cout << "Start out of bounds!" << endl;
+        throw invalid_argument("Start out of bounds");
+    }
+    if(end_x >= xs || end_x < 0 || end_y >= ys || end_y < 0 ||                  //out of bounds 
+    (end_x == 0 && end_y == 0) || (end_x == xs-1 && end_y == 0) ||              //upper corners
+    (end_x == 0 && end_y == ys-1) || (end_x == xs-1 && end_y == ys-1)           //lower corners
+    ){
+        cout << "End out of bounds!" << endl;
+        throw invalid_argument("End out of bounds");
+    }
+    int actual_size = this->xs * this->ys + 1;
+    this->map = new char[actual_size]; //allocate memory for the map of the maze
+    this->map_out = new char[actual_size]; //allocate memory for the outpued map of the maze
+
+    this->map[actual_size-1] = '\0';
+    this->map_out[actual_size-1] = '\0';
+
+    for(int i = 0; i < actual_size; i++){
+        this->map[i] = m_wall;
+    }
+
+    //todo generate maze
+
+    //place start
+    this->map[start_x+start_y*xs] = m_start;
+    this->map[end_x+end_y*xs] = m_end;
+    //place end
+}
+
 maze::~maze() { //destructor for maze
     this->in_stream.close();
     delete[] map;
@@ -40,7 +78,7 @@ maze::~maze() { //destructor for maze
     if(this->debug) cout << "map_out deleted" << endl;
 }
 
-void maze::print(bool exp) { //print maze (exp == 0 => map ; exp == 1 => map_out)
+void maze::print(bool exp) const { //print maze (exp == 0 => map ; exp == 1 => map_out)
     char* map_to_print = this->map; //sets map_to_print to map
     if (exp) {
         map_to_print = this->map_out; //rewrites map_to_print to map_out if exp == 1
@@ -85,12 +123,12 @@ void maze::print(bool exp) { //print maze (exp == 0 => map ; exp == 1 => map_out
     }
 }
 
-char maze::print_one(int x, int y) { //prints and returns a character that is specified position in map 
+char maze::print_one(int x, int y) const{ //prints and returns a character that is specified position in map 
     cout << this->map[y * xs + x];
     return this->map[y * xs + x];
 }
 
-void maze::print_to_file(string path) { //print contents of map_out to output file
+void maze::print_to_file(string path) const{ //print contents of map_out to output file
     if(path.empty()){
         path = "output.txt";
     }

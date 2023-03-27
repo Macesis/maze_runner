@@ -51,11 +51,16 @@ protected:
 
 public:
 	/**
-	*constructor for maze
+	*load from file constructor for maze
 	*@param input_path -> Location of file for input
 	*\param output_path -> Location of file for output
 	*/
 	maze(string input_path, bool debug = false); //constructor
+
+	/**
+	*generate constructor for maze
+	*/
+	maze(int x_size, int y_size, int start_x, int start_y, int end_x, int end_y, bool debug = false); //constructor
 
 	/**
 	*destructor for maze
@@ -68,17 +73,17 @@ public:
 	*print the entire maze 
 	*\param exp -> 0 prints map ; 1 prints map_out)
 	*/
-	void print(bool exp);
+	void print(bool exp) const;
 
 	/**
 	*prints a character that is at specified position in map 
 	*/
-	char print_one(int x, int y); 
+	char print_one(int x, int y) const; 
 
 	/**
 	*print contents of map_out to output file
 	*/
-	void print_to_file(string path = "");
+	void print_to_file(string path = "") const;
 };
 
 /*

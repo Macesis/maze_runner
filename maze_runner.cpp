@@ -24,22 +24,14 @@ int main()
     cout << "for export" << endl;
     blud->print(1);
     blud->print_to_file();
-    //blud->print();
 
-    // }
-    // if (blud->maze_fill()) {
-    //     cout << "initiated!" << endl;
-    //     blud->print(0);
-    //     blud->solve();
-    //     blud->stamp();
-    //     cout << "-------------------------\n";
-    //     //blud->print(0);
-    //     blud->print(1);
-    //     blud->print_to_file();
-    // }
-    //system("pause");
     //blud->~maze();
     delete blud;
+
+    cout << m_line << endl;
+
+    maze* gener_maz = new maze(30,10,1,9,2,1);
+    gener_maz->print(0);
     return 0;
 }
 
