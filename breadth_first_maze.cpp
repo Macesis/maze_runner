@@ -10,7 +10,11 @@ breadth_first_maze::breadth_first_maze(string input_path, bool debug) : maze(inp
 breadth_first_maze::breadth_first_maze(int x_size, int y_size, int start_x, int start_y, int end_x, int end_y, bool debug) : maze(x_size, y_size, start_x, start_y, end_x, end_y, debug) {
     //fill maze randomly
     for(int i = 0; i < this->xs * this->ys; i++){
-        
+            if (this->map[i] == m_corr) this->map[i] = m_reserved; //set empty corridor to reserved (unexplored)
+            if (this->map[i] == m_start) { //if start create a starting joint
+                joint* discover = new joint(nullptr, i); //create a joint with nullptr origin
+                this->joints.push_back(discover); //store joint
+            }
     }
 }
 

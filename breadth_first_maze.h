@@ -48,8 +48,14 @@ private:
 	void clear_queue(queue<joint*>& q); //internal method for clearing joint_buffer
 
 public:
+	/**
+	*constructor for reading from file 
+	*/
     breadth_first_maze(string input_path, bool debug = false);
 
+	/**
+	* constructor for generating a maze
+	*/
 	breadth_first_maze(int x_size, int y_size, int start_x, int start_y, int end_x, int end_y, bool debug = false);
 
     ~breadth_first_maze();

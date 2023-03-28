@@ -147,13 +147,21 @@ maze::maze(int x_size, int y_size, int start_x, int start_y, int end_x, int end_
         this->map[i] = m_wall;
     }
 
-    //todo generate maze
-    visit_cell(start_x, start_y);
+    //generate maze (start at start)
+    //visit_cell(start_x, start_y);
+
+    //generate maze (start at end)
+    visit_cell(end_x, end_y);
 
     //place start
     this->map[start_y*xs+start_x] = m_start;
-    this->map[end_y*xs+end_x] = m_end;
     //place end
+    this->map[end_y*xs+end_x] = m_end;
+
+    for(int i = 0; i < actual_size; i++){
+        this->map_out[i] = this->map[i];
+    }
+
 }
 
 maze::~maze() { //destructor for maze

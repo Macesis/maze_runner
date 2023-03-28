@@ -8,6 +8,14 @@ empty_path_maze::empty_path_maze(string input_path, bool debug) : maze(input_pat
     }
 }
 
+empty_path_maze::empty_path_maze(int x_size, int y_size, int start_x, int start_y, int end_x, int end_y, bool debug) : maze(x_size, y_size, start_x, start_y, end_x, end_y, debug)
+{
+    for(int i = 0; i < this->xs * this->ys; i++){
+        if (this->map[i] == m_corr) this->map[i] = m_path; //set corridor to path, solving algorithm should replace all wrong paths
+        this->map_out[i] = this->map[i];
+    }
+}
+
 bool empty_path_maze::maze_fill() { //filling maze from file for use of empty path algorithm
     if(!this->in_stream.is_open()) return false; //end if no in_stream
 	string line; //create a string buffer to store currently processed line

@@ -11,7 +11,15 @@ private:
     */
     int proximity(int x, int y);
 public:
+	/**
+	*constructor for reading from file 
+	*/
     empty_path_maze(string input_path, bool debug = false);
+
+    /**
+    *constructor for generating a maze
+    */
+    empty_path_maze(int x_size, int y_size, int start_x, int start_y, int end_x, int end_y, bool debug = false);
     /**
     *filling map for use of empty path algorithm
     *should only be called if maze was read from file
