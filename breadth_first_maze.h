@@ -50,6 +50,8 @@ private:
 public:
     breadth_first_maze(string input_path, bool debug = false);
 
+	breadth_first_maze(int x_size, int y_size, int start_x, int start_y, int end_x, int end_y, bool debug = false);
+
     ~breadth_first_maze();
 
 	/**

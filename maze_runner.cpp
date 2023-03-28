@@ -10,8 +10,8 @@ const string m_line = "--------------------------------------------------";
 
 int main()
 {
-    empty_path_maze* blud = new empty_path_maze("../vstup.txt",false);
-    //breadth_first_maze* blud = new breadth_first_maze("../vstup.txt",false);
+    //empty_path_maze* blud = new empty_path_maze("../vstup.txt",false);
+    breadth_first_maze* blud = new breadth_first_maze("../vstup.txt",false);
     cout << m_line << endl;
 
     cout << "initiated!" << endl;
@@ -30,7 +30,7 @@ int main()
 
     cout << m_line << endl;
 
-    maze* gener_maz = new maze(30,10,1,9,2,1);
+    maze* gener_maz = new maze(20,20,5,5,20,19);
     gener_maz->print(0);
     return 0;
 }

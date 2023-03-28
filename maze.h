@@ -6,6 +6,7 @@
 #include <queue>
 #include <stdexcept>
 #include <stdlib.h>
+#include <algorithm>
 
 using namespace std;
 
@@ -23,6 +24,8 @@ const char m_reserved = '5'; //is a reserved symbol, it will be used as an unexp
 */
 class maze
 {
+private:
+	void visit_cell(int x, int y);
 protected:
 	/**
 	*map used for solving
