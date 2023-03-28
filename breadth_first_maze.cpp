@@ -7,7 +7,15 @@ breadth_first_maze::breadth_first_maze(string input_path, bool debug) : maze(inp
         throw runtime_error("Fill failed!");
     }
 }
-breadth_first_maze::~breadth_first_maze(){
+breadth_first_maze::breadth_first_maze(int x_size, int y_size, int start_x, int start_y, int end_x, int end_y, bool debug) : maze(x_size, y_size, start_x, start_y, end_x, end_y, debug) {
+    //fill maze randomly
+    for(int i = 0; i < this->xs * this->ys; i++){
+        
+    }
+}
+
+breadth_first_maze::~breadth_first_maze()
+{
     while(!this->joints.empty()){
         delete this->joints.back();
         this->joints.pop_back();
