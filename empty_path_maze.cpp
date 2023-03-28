@@ -12,7 +12,7 @@ empty_path_maze::empty_path_maze(int x_size, int y_size, int start_x, int start_
 {
     for(int i = 0; i < this->xs * this->ys; i++){
         if (this->map[i] == m_corr) this->map[i] = m_path; //set corridor to path, solving algorithm should replace all wrong paths
-        this->map_out[i] = this->map[i];
+        this->map_out[i] = this->map[i]; //copy map to map_out
     }
 }
 
@@ -51,6 +51,10 @@ int empty_path_maze::proximity(int x, int y) { //detects wether the point is bli
     char& current = this->map_out[y * xs + x];
     if (current != m_wall && current != m_start && current != m_end) {
 
+        // this->print(1); //visualization output for testing
+        // system("clear"); //clear screen
+
+        //get values of cells around current cell (neighbours)
         char above = this->map_out[(y - 1) * xs + x];
         char left = this->map_out[y * xs + x - 1];
         char right = this->map_out[y * xs + x + 1];

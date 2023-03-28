@@ -4,16 +4,19 @@ using namespace std;
 
 void maze::visit_cell(int x, int y)
 {
+    //get direct neighbors
     char above = this->map[(y - 1) * xs + x];
     char left = this->map[y * xs + x - 1];
     char right = this->map[y * xs + x + 1];
     char below = this->map[(y + 1) * xs + x];
 
+    //get diagonal neighbors
     char upleft = this->map[(y - 1) * xs + x - 1];
     char upright = this->map[(y - 1) * xs + x + 1];
     char downleft = this->map[(y + 1) * xs + x - 1];
     char downright = this->map[(y + 1) * xs + x + 1];
 
+    //check if there is more than one coridor (and remember the direction)
     int coridors = 0;
     int direction = 0;
     if (above == m_corr) { //is coridor above?
@@ -34,6 +37,8 @@ void maze::visit_cell(int x, int y)
         coridors++;
         direction = 4;
     }
+
+    //visualization output for testing below
     if(debug){
         cout << "coridors: " << coridors << endl;
         cout << "direction: " << direction << endl;
@@ -45,42 +50,54 @@ void maze::visit_cell(int x, int y)
     switch(direction)
     {
         case 1:
+            //check if there is a coridor in the diagonal
             if(downleft == m_corr || downright == m_corr) return;
+            //go left, right and down
             candidates.push_back({x - 1, y});
             candidates.push_back({x + 1, y});
             candidates.push_back({x, y + 1});
             break;
 
         case 2:
+            //check if there is a coridor in the diagonal
             if(upright == m_corr || downright == m_corr) return;
+            //go up, right and down
             candidates.push_back({x, y - 1});
             candidates.push_back({x + 1, y});
             candidates.push_back({x, y + 1});
             break;
         case 3:
+            //check if there is a coridor in the diagonal
             if(upleft == m_corr || downleft == m_corr) return;
+            //go up, left and down
             candidates.push_back({x, y - 1});
             candidates.push_back({x - 1, y});
             candidates.push_back({x, y + 1});
             break;
         case 4:
+            //check if there is a coridor in the diagonal
             if(upleft == m_corr || upright == m_corr) return;
+            //go up, left and right
             candidates.push_back({x, y - 1});
             candidates.push_back({x - 1, y});
             candidates.push_back({x + 1, y});
             break;
         default:
+            //go in all directions
             candidates.push_back({x, y - 1});
             candidates.push_back({x - 1, y});
             candidates.push_back({x + 1, y});
             candidates.push_back({x, y + 1});
             break;
     }   
+    //set the cell to coridor (all conditions are met)
     this->map[y * xs + x] = m_corr;
-    //this->print(0);
+
+    //shuffle the candidates and visit them
     random_shuffle(candidates.begin(), candidates.end());
     for(auto candidate : candidates)
     {
+        //check if the candidate is out of bounds
         if(candidate.first <= 0 || candidate.first >= xs-1 || candidate.second <= 0 || candidate.second >= ys-1) continue;
         visit_cell(candidate.first, candidate.second);
     }

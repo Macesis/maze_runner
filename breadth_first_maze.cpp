@@ -61,6 +61,9 @@ int breadth_first_maze::solve() { //solves the maze by using a Breadth-first sea
         int y = (orig->getpos()+1) % this->xs; //calculate y position
         int x = orig->getpos() - y * this->xs; //calculate x position
 
+        // this->print(0); //print current state of maze
+        // system("clear"); //clear screen
+
         if (this->map[y * xs + x] != m_corr) {
             char above = this->map[(y - 1) * xs + x];
             char left = this->map[y * xs + x - 1];

@@ -31,11 +31,12 @@ int main()
     //cout << m_line << endl;
 
     //breadth_first_maze* gener_maz = new breadth_first_maze(100,100,5,5,90,90);
-    empty_path_maze* gener_maz = new empty_path_maze(100,100,5,5,90,90);
+    empty_path_maze* gener_maz = new empty_path_maze(100,30,4,10,80,20);
     gener_maz->print(1);
     gener_maz->solve();
     cout << m_line << endl;
     gener_maz->print(1);
+    gener_maz->print_to_file();
     return 0;
 }
 
