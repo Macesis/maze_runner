@@ -56,12 +56,17 @@ public:
 	/**
 	*load from file constructor for maze
 	*@param input_path -> Location of file for input
-	*\param output_path -> Location of file for output
 	*/
 	maze(string input_path, bool debug = false); //constructor
 
 	/**
 	*generate constructor for maze
+	*@param x_size -> x size of maze
+	*@param y_size -> y size of maze
+	*@param start_x -> x position of starting point
+	*@param start_y -> y position of starting point
+	*@param end_x -> x position of ending point
+	*@param end_y -> y position of ending point
 	*/
 	maze(int x_size, int y_size, int start_x, int start_y, int end_x, int end_y, bool debug = false); //constructor
 
