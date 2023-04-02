@@ -37,19 +37,23 @@ bool breadth_first_maze::maze_fill() { //filling maze for use of Breadth-first s
     for (int y = 0; y < this->ys; y++) { //loop through lines of file
         getline(in_stream, line); //read next line of input file
         for (int x = 0; x < this->xs; x++) { //loop through characters of line
-            this->map_out[y * this->xs + x] = line[x]; //put original character into map_out
+            //this->map_out[y * this->xs + x] = line[x]; //put original character into map_out
+            this->map_out.push_back(line[x]); //put original character into map_out
             if (line[x] == m_corr) line[x] = m_reserved; //set empty corridor to reserved (unexplored)
             if (line[x] == m_start) { //if start create a starting joint
                 joint* discover = new joint(nullptr, y * xs + x); //create a joint with nullptr origin
                 this->joints.push_back(discover); //store joint
             }
-            this->map[y * this->xs + x] = line[x]; //put character into map (corridor has been replaced by reserved)
+            //this->map[y * this->xs + x] = line[x]; //put character into map (corridor has been replaced by reserved)
+            this->map.push_back(line[x]); //put character into map (corridor has been replaced by reserved)
             if(debug) cout << line[x];
         }
         if(debug) cout << endl;
     }
-    this->map[this->xs * this->ys] = '\0'; //end the map with a \0 end symbol
-    this->map_out[this->xs * this->ys] = '\0';//end the map_out with a \0 end symbol
+    //this->map[this->xs * this->ys] = '\0'; //end the map with a \0 end symbol
+    this->map.push_back('\0'); //end the map with a \0 end symbol
+    //this->map_out[this->xs * this->ys] = '\0';//end the map_out with a \0 end symbol
+    this->map_out.push_back('\0');//end the map_out with a \0 end symbol
     return true;
 }
 

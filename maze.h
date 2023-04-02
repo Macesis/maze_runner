@@ -30,12 +30,14 @@ protected:
 	/**
 	*map used for solving
 	*/
-	char* map = nullptr; 
+	//char* map = nullptr; 
+	vector<char> map;
 
 	/**
 	*map for output
 	*/
-	char* map_out = nullptr;
+	//char* map_out = nullptr;
+	vector<char> map_out;
 
 	/**
 	*xs -> x size; ys -> y size

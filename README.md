@@ -1,6 +1,7 @@
 # maze_runner
 Maze runner project for cpp_programming 1
 no runtime UI yet, will be determined later 
+*last change: converted to vector, instead of array, for easier memory management (old immplementation is commented out)
 # Includes:
 __maze__ - basic maze class that can import maze from file or generate maze (start and end points need to be set manually)
 __maze_solver__ - an interface for implementing the solver algorithms  
