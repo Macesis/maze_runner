@@ -23,18 +23,19 @@ bool empty_path_maze::maze_fill() { //filling maze from file for use of empty pa
 		getline(in_stream, line); //read next line of input file
         for (int x = 0; x < this->xs; x++) { //loop through characters of line
             if (line[x] == m_corr) line[x] = m_path; //set corridor to path, solving algorithm should replace all wrong paths
-            //this->map[y * this->xs + x] = line[x];
-            this->map.push_back(line[x]);
-            //this->map_out[y * this->xs + x] = line[x];
-            this->map_out.push_back(line[x]);
+            this->map[y * this->xs + x] = line[x];
+            //this->map.push_back(line[x]);
+            this->map_out[y * this->xs + x] = line[x];
+            //this->map_out.push_back(line[x]);
             //cout << radek[x];
         }
         //cout << endl;
 	}
-    //this->map[this->xs * this->ys] = '\0';
-    this->map.push_back('\0');
-    //this->map_out[this->xs * this->ys] = '\0';
-    this->map_out.push_back('\0');
+    this->map[this->xs * this->ys] = '\0';
+    //this->map.push_back('\0');
+    
+    this->map_out[this->xs * this->ys] = '\0';
+    //this->map_out.push_back('\0');
     return true;
 }
 

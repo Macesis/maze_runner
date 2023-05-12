@@ -37,34 +37,42 @@ bool breadth_first_maze::maze_fill() { //filling maze for use of Breadth-first s
     for (int y = 0; y < this->ys; y++) { //loop through lines of file
         getline(in_stream, line); //read next line of input file
         for (int x = 0; x < this->xs; x++) { //loop through characters of line
-            //this->map_out[y * this->xs + x] = line[x]; //put original character into map_out
-            this->map_out.push_back(line[x]); //put original character into map_out
+            this->map_out[y * this->xs + x] = line[x]; //put original character into map_out
+            //this->map_out.push_back(line[x]); //put original character into map_out
             if (line[x] == m_corr) line[x] = m_reserved; //set empty corridor to reserved (unexplored)
             if (line[x] == m_start) { //if start create a starting joint
                 joint* discover = new joint(nullptr, y * xs + x); //create a joint with nullptr origin
                 this->joints.push_back(discover); //store joint
             }
-            //this->map[y * this->xs + x] = line[x]; //put character into map (corridor has been replaced by reserved)
-            this->map.push_back(line[x]); //put character into map (corridor has been replaced by reserved)
+            this->map[y * this->xs + x] = line[x]; //put character into map (corridor has been replaced by reserved)
+            //this->map.push_back(line[x]); //put character into map (corridor has been replaced by reserved)
             if(debug) cout << line[x];
         }
         if(debug) cout << endl;
     }
-    //this->map[this->xs * this->ys] = '\0'; //end the map with a \0 end symbol
-    this->map.push_back('\0'); //end the map with a \0 end symbol
-    //this->map_out[this->xs * this->ys] = '\0';//end the map_out with a \0 end symbol
-    this->map_out.push_back('\0');//end the map_out with a \0 end symbol
+    this->map[this->xs * this->ys] = '\0'; //end the map with a \0 end symbol
+    //this->map.push_back('\0'); //end the map with a \0 end symbol
+    
+    this->map_out[this->xs * this->ys] = '\0';//end the map_out with a \0 end symbol
+    //this->map_out.push_back('\0');//end the map_out with a \0 end symbol
     return true;
 }
 
 int breadth_first_maze::solve() { //solves the maze by using a Breadth-first search algorithm
     joint_buffer.push(joints[0]); //put start in buffer
+    system("clear");
+    this->print(1);
+
+
     while (!this->joint_buffer.empty()) { //loop while buffer isn't empty
         joint* orig = joint_buffer.front(); //get joint at the front of the queue
         joint_buffer.pop(); //move queue
-        int y = (orig->getpos()+1) % this->xs; //calculate y position
-        int x = orig->getpos() - y * this->xs; //calculate x position
+        int pos = orig->getpos();
+        
+        int y = pos / this->xs; //calculate y position
+        int x = pos % this->xs; //calculate x position
 
+        //cout << pos <<endl;
         // this->print(0); //print current state of maze
         // system("clear"); //clear screen
 
@@ -73,12 +81,18 @@ int breadth_first_maze::solve() { //solves the maze by using a Breadth-first sea
             char left = this->map[y * xs + x - 1];
             char right = this->map[y * xs + x + 1];
             char below = this->map[(y + 1) * xs + x];
+            
+            if(this->vis){
+                gotoxy(x+1,y+1);
+                cout << "|";
+            }                
 
             if (above == m_end || left == m_end || right == m_end || below == m_end) { //proper end
                 clear_queue(joint_buffer); //clear buffer
                 this->found_path = true; //set found_path to true (indicates that the maze solution has been found)
                 joints.push_back(new joint(orig, y * xs + x)); //push back the last joint so that stamp can just start from the last joint
                 this->stamp();
+                gotoxy(0,this->ys+1);
                 return 0;
             }
             if(this->map[y * xs + x] == m_reserved) this->map[y * xs + x] = m_corr; //change reserved (unexplored) to corridor (explored)
@@ -118,6 +132,7 @@ int breadth_first_maze::solve() { //solves the maze by using a Breadth-first sea
             }
         }
     }
+    gotoxy(0,this->ys+1);
     return 1;
 }
 
@@ -135,6 +150,14 @@ int breadth_first_maze::internal_stamp(joint* joint) {
     }
     else {
         this->map_out[joint->getpos()] = m_path; //stamp m_path constant to a point in map_out
+        if(this->vis){
+            int pos = joint->getpos();
+            int y = pos / this->xs; //calculate y position
+            int x = pos % this->xs; //calculate x position
+            gotoxy(x+1,y+1);
+            cout <<   "\33[1;34m|\33[0m";
+        }
+
         internal_stamp(joint->getorig()); //recursive call
     }
     return 0;

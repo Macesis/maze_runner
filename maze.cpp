@@ -122,10 +122,13 @@ maze::maze(string input_path, bool debug) : debug(debug)
         getline(this->in_stream, line); //read next line of input file
         this->ys = stoi(line); //read the y size of the maze
 
+        int actual_size = this->xs * this->ys + 1;
+
         //this->map = new char[this->xs * this->ys+1]; //allocate memory for the map of the maze
+        this->map.resize(actual_size);
 
         //this->map_out = new char[this->xs * this->ys + 1]; //allocate memory for the outpued map of the maze
-        
+        this->map_out.resize(actual_size);
     }
     else {
         cout << "Files not opened!" << endl;
@@ -157,9 +160,12 @@ maze::maze(int x_size, int y_size, int start_x, int start_y, int end_x, int end_
     //this->map = new char[actual_size]; //allocate memory for the map of the maze
     //this->map_out = new char[actual_size]; //allocate memory for the outpued map of the maze
 
+    this->map.resize(actual_size); //allocate memory for the map of the maze
+    this->map_out.resize(actual_size); //allocate memory for the outpued map of the maze
+
     for(int i = 0; i < actual_size; i++){
-        //this->map[i] = m_wall;
-        this->map.push_back(m_wall);
+        this->map[i] = m_wall;
+        //this->map.push_back(m_wall);
     }
 
     //generate maze (start at start)
@@ -174,13 +180,12 @@ maze::maze(int x_size, int y_size, int start_x, int start_y, int end_x, int end_
     this->map[end_y*xs+end_x] = m_end;
 
     for(int i = 0; i < actual_size; i++){
-        //this->map_out[i] = this->map[i];
-        this->map_out.push_back(this->map[i]);
+        this->map_out[i] = this->map[i];
+        //this->map_out.push_back(this->map[i]);
     }
 
-    //this->map[actual_size-1] = '\0';
-    this->map.push_back('\0');
-    //this->map_out[actual_size-1] = '\0';
+    this->map[actual_size-1] = '\0';
+    this->map_out[actual_size-1] = '\0';
 
 }
 
@@ -233,7 +238,8 @@ void maze::print(bool exp) const { //print maze (exp == 0 => map ; exp == 1 => m
                 default: //if no special character assigned, print original character
                     to_cout = map_to_print[y * xs + x]; 
             }
-            cout << to_cout << to_cout;
+            //cout << to_cout << to_cout;
+            cout << to_cout;
         }
         cout << endl;
     }

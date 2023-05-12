@@ -19,6 +19,8 @@ const char m_start = '2'; //starting point
 const char m_end = '3'; //ending point
 const char m_reserved = '5'; //is a reserved symbol, it will be used as an unexplored id
 
+
+
 /**
 *Class for solving mazes
 */
@@ -90,6 +92,11 @@ public:
 	*/
 	char print_one(int x, int y) const; 
 
+	//move cursor to a specific pos
+	void gotoxy(int x, int y) {
+		printf("\033[%d;%dH", y, x);
+	}
+
 	/**
 	*print contents of map_out to output file
 	*/
@@ -101,6 +108,8 @@ public:
 *Has to inherit virtualy so that i don't have to define passing constructors (they would just call the same constructor in maze)
 */
 class maze_solver : public virtual maze{
+protected:
+	bool vis = false; //visualize step by step
 public:
 	//---------------------------------------------------------------------------
 	//these methods are for working with the maze
