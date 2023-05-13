@@ -27,9 +27,14 @@ public:
 	*@param end_y -> y position of ending point
     */
     empty_path_maze(int x_size, int y_size, int start_x, int start_y, int end_x, int end_y, bool debug = false);
+
     /**
-    *filling map for use of empty path algorithm
-    *should only be called if maze was read from file
+	*copy constructor for maze
+	*/
+    empty_path_maze(const maze& other);
+
+    /**
+    *pre processing for use of empty path algorithm
     */
     bool maze_fill() override;
 
@@ -37,7 +42,7 @@ public:
     *solves the maze by empty path algorithm
     *should only be called after maze_fill_ep() has been called
     */
-    int solve() override;
+    int solve(bool visualize = false) override;
 
 
 };

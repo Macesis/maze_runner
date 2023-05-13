@@ -65,10 +65,15 @@ public:
 	*/
 	breadth_first_maze(int x_size, int y_size, int start_x, int start_y, int end_x, int end_y, bool debug = false);
 
+	/**
+	*copy constructor for maze
+	*/
+	breadth_first_maze(maze &m);
+
     ~breadth_first_maze();
 
 	/**
-	*filling map for use of Breadth-first search algorithm
+	*pre processing for use of Breadth-first search algorithm
 	*/
 	bool maze_fill() override;
 
@@ -76,7 +81,7 @@ public:
 	*solves the maze by using a Breadth-first search algorithm
 	*should only be called after maze_fill was called
 	*/
-	int solve() override;
+	int solve(bool visualize = false) override;
 
 	/**
 	*stamps the solution to map_out (if there is any)

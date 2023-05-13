@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include <stdlib.h>
 #include <algorithm>
+#include <unistd.h>
 
 using namespace std;
 
@@ -19,7 +20,14 @@ const char m_start = '2'; //starting point
 const char m_end = '3'; //ending point
 const char m_reserved = '5'; //is a reserved symbol, it will be used as an unexplored id
 
-
+const unordered_map<char,string> graphics = {
+	{m_wall,"██"},
+	{m_corr,"  "},
+	{m_path,"\33[1;34m||\33[0m"},
+	{m_start,"\33[1;32m>>\33[0m"},
+	{m_end,"\33[1;31m<<\33[0m"},
+	{m_reserved,"XX"}
+};
 
 /**
 *Class for solving mazes
@@ -75,6 +83,11 @@ public:
 	maze(int x_size, int y_size, int start_x, int start_y, int end_x, int end_y, bool debug = false); //constructor
 
 	/**
+	*copy constructor for maze 
+	*/
+	maze(const maze& other); //copy constructor
+
+	/**
 	*destructor for maze
 	*/
 	virtual ~maze(); //destructor
@@ -93,8 +106,8 @@ public:
 	char print_one(int x, int y) const; 
 
 	//move cursor to a specific pos
-	void gotoxy(int x, int y) {
-		printf("\033[%d;%dH", y, x);
+	static void gotoxy(int x, int y) {
+		printf("\033[%d;%dH", y, 2*x+1);
 	}
 
 	/**
@@ -113,15 +126,16 @@ protected:
 public:
 	//---------------------------------------------------------------------------
 	//these methods are for working with the maze
+
 	/**
-	*called automatically in constructor for loading from file, works only if class was created from file
-	*filling map for search algorithm
+	*pre processing for search algorithm
+	*automaticaly called by constructor
 	*/
 	virtual bool maze_fill() = 0;
 
 	/**
 	*solves the maze by using an algorithm
 	*/
-	virtual int solve() = 0;
+	virtual int solve(bool visualize = false) = 0;
 
 };

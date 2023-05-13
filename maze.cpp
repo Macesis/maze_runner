@@ -2,8 +2,8 @@
 
 using namespace std;
 
-void maze::visit_cell(int x, int y)
-{
+void maze::visit_cell(int x, int y){
+
     //get direct neighbors
     char above = this->map[(y - 1) * xs + x];
     char left = this->map[y * xs + x - 1];
@@ -103,9 +103,7 @@ void maze::visit_cell(int x, int y)
     }
 }
 
-maze::maze(string input_path, bool debug) : debug(debug)
-{ // constructor for maze
-
+maze::maze(string input_path, bool debug) : debug(debug){
     this->in_stream.open(input_path); //open input stream
 
     string line; //create a string buffer to store currently processed line
@@ -129,6 +127,17 @@ maze::maze(string input_path, bool debug) : debug(debug)
 
         //this->map_out = new char[this->xs * this->ys + 1]; //allocate memory for the outpued map of the maze
         this->map_out.resize(actual_size);
+
+	    string line; //create a string buffer to store currently processed line
+    
+        for (int y = 0; y < this->ys; y++) { //loop through lines of file
+            getline(in_stream, line); //read next line of input file
+            for (int x = 0; x < this->xs; x++) { //loop through characters of line
+                this->map[y * this->xs + x] = line[x];
+                this->map_out[y * this->xs + x] = line[x];
+            }
+        }
+
     }
     else {
         cout << "Files not opened!" << endl;
@@ -189,6 +198,16 @@ maze::maze(int x_size, int y_size, int start_x, int start_y, int end_x, int end_
 
 }
 
+maze::maze(const maze &other)
+{
+    this->xs = other.xs;
+    this->ys = other.ys;
+    this->debug = other.debug;
+    this->map = other.map;
+    this->map_out = other.map_out;
+
+}
+
 maze::~maze() { //destructor for maze
     this->in_stream.close();
     //delete[] map;
@@ -210,29 +229,23 @@ void maze::print(bool exp) const { //print maze (exp == 0 => map ; exp == 1 => m
             switch(map_to_print[y * xs + x])
             {
                 case m_corr: //if the character is corridor, print ' ' (space)
-                    to_cout = " ";
+                    to_cout = graphics.at(m_corr);
                     break;
                 
                 case m_wall: //if the character is wall, print +
-                    to_cout = "X";
+                    to_cout = graphics.at(m_wall);
                     break;
 
                 case m_path: //if the character is path, print |
-                    to_cout = "\33[1;34m";
-                    to_cout += "|";
-                    to_cout += "\33[0m";
+                    to_cout = graphics.at(m_path);
                     break;
 
                 case m_start: //if the character is start, print >;
-                    to_cout = "\33[1;32m";
-                    to_cout += ">";
-                    to_cout += "\33[0m";
+                    to_cout = graphics.at(m_start);
                     break;
 
                 case m_end: //if the character is path, print <
-                    to_cout = "\33[1;31m";
-                    to_cout += "<";
-                    to_cout += "\33[0m";                         
+                    to_cout = graphics.at(m_end);                        
                     break;
 
                 default: //if no special character assigned, print original character
