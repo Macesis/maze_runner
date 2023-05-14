@@ -140,8 +140,8 @@ maze::maze(string input_path, bool debug) : debug(debug){
 
     }
     else {
-        cout << "Files not opened!" << endl;
-        throw invalid_argument("File not found");
+        //cout << "\033[31mFiles not opened!\033[0m" << endl;
+        throw invalid_argument("File not found!");
     }
 }
 

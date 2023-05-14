@@ -6,6 +6,7 @@
 
 #include <limits>
 #include <iostream>
+#include <chrono>
 
 using namespace std;
 
@@ -98,7 +99,7 @@ int get_num(int min, int max, string prompt = ""){
  *runtime UI WIP
  *beware of small windows size when solving visualy
 */
-int main()
+void menu()
 {
     State current_state = State::main_menu;
 
@@ -110,6 +111,9 @@ int main()
     maze* blud = nullptr;
     breadth_first_maze* bf_blud = nullptr;
     empty_path_maze* ep_blud = nullptr;
+
+    std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
+    std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
 
     while (current_state != State::exit) {
         switch (current_state) {
@@ -129,7 +133,9 @@ int main()
                         try{
                             blud = new maze(pth);
                         } catch (const std::exception& e) {
-                            cout << "Error: " << e.what() << endl;
+                            system("clear");
+                            cout << "Path to load: " << pth << endl;
+                            cout << "\033[31mError: " << e.what() << "\033[0m" << endl;
                             break;
                         }
                         system("clear");
@@ -162,8 +168,14 @@ int main()
                         prompt = "Input end Y (1 - " + to_string(y_size) + "): ";
                         int end_y;
                         end_y = get_num(1,y_size, prompt);
-                        
-                        blud = new maze(x_size,y_size,start_x,start_y,end_x,end_y);
+                        try{
+                            blud = new maze(x_size,y_size,start_x,start_y,end_x,end_y);
+                        }
+                        catch (const std::exception& e) {
+                            system("clear");
+                            cout << "\033[31mError: " << e.what() << "\033[0m" << endl;
+                            break;
+                        }
                         system("clear");
                         blud->print(0);
                         current_state = State::solve_menu;
@@ -193,34 +205,47 @@ int main()
                     case 2:
                         bf_blud = new breadth_first_maze(*blud);
                         system("clear");
+                        start = std::chrono::steady_clock::now();
                         bf_blud->solve(false);
+                        end = std::chrono::steady_clock::now();
                         bf_blud->print(1);
+                        cout << "Time elapsed: " << std::chrono::duration_cast<std::chrono::microseconds>(end-start).count() << " µs" << endl;
                         bf_blud->~breadth_first_maze();
                         break;
                     case 3:
                         bf_blud = new breadth_first_maze(*blud);
+                        start = std::chrono::steady_clock::now();
                         bf_blud->solve(true);
+                        end = std::chrono::steady_clock::now();
                         system("clear");
                         maze::gotoxy(0,0);
                         bf_blud->print(1);
+                        cout << "Time elapsed: " << std::chrono::duration_cast<std::chrono::milliseconds>(end-start).count() << " ms" << endl;
                         bf_blud->~breadth_first_maze();
                         break;
                     case 4:
                         ep_blud = new empty_path_maze(*blud);
                         system("clear");
+                        start = std::chrono::steady_clock::now();
                         ep_blud->solve(false);
+                        end = std::chrono::steady_clock::now();
                         ep_blud->print(1);
+                        cout << "Time elapsed: " << std::chrono::duration_cast<std::chrono::microseconds>(end-start).count() << " µs" << endl;
                         ep_blud->~empty_path_maze();
                         break;
                     case 5:
                         ep_blud = new empty_path_maze(*blud);
+                        start = std::chrono::steady_clock::now();
                         ep_blud->solve(true);
+                        end = std::chrono::steady_clock::now();
                         system("clear");
                         maze::gotoxy(0,0);
                         ep_blud->print(1);
+                        cout << "Time elapsed: " << std::chrono::duration_cast<std::chrono::milliseconds>(end-start).count() << " ms" << endl;
                         ep_blud->~empty_path_maze();
                         break;
                     case 6:
+                        system("clear");
                         current_state = State::main_menu;
                         break;
                 }
@@ -232,6 +257,13 @@ int main()
 
     //test();
 
-    return 0;
+    return;
 }
 
+
+int main(int argc, char const *argv[])
+{
+    menu();
+
+    return 0;
+}
