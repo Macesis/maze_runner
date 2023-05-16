@@ -106,14 +106,15 @@ public:
 	char print_one(int x, int y) const; 
 
 	//move cursor to a specific pos
-	static void gotoxy(int x, int y) {
+	static void gotoxy(int x, int y){
 		printf("\033[%d;%dH", y, 2*x+1);
 	}
 
 	/**
 	*print contents of map_out to output file
+	*\param exp -> 0 prints map ; 1 prints map_out)
 	*/
-	void print_to_file(string path = "") const;
+	void print_to_file(string path = "", bool exp = false) const;
 };
 
 /*

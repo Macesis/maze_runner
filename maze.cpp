@@ -263,16 +263,56 @@ char maze::print_one(int x, int y) const{ //prints and returns a character that 
     return this->map[y * xs + x];
 }
 
-void maze::print_to_file(string path) const{ //print contents of map_out to output file
+void maze::print_to_file(string path, bool exp) const{ //print contents of map_out to output file (exp == 0 => map ; exp == 1 => map_out)
     if(path.empty()){
         path = "output.txt";
     }
     ofstream out_stream{path};
-    for (int y = 0; y < this->ys; y++) {
-        for (int x = 0; x < this->xs; x++) {
-            out_stream << this->map_out[y * this->xs + x]; //write to file
+    vector<char> map_to_print = this->map;
+    if(exp){
+        map_to_print = this->map_out;
+        string to_cout;
+        for (int y = 0; y < this->ys; y++) {
+            for (int x = 0; x < this->xs; x++) {
+                switch(map_to_print[y * xs + x])
+                {
+                    case m_corr: //if the character is corridor, print ' ' (space)
+                        to_cout = "  ";
+                        break;
+                    
+                    case m_wall: //if the character is wall, print +
+                        to_cout = "██";
+                        break;
+
+                    case m_path: //if the character is path, print |
+                        to_cout = "||";
+                        break;
+
+                    case m_start: //if the character is start, print >;
+                        to_cout = ">>";
+                        break;
+
+                    case m_end: //if the character is path, print <                     
+                        to_cout = "<<";
+                        break;
+
+                    default: //if no special character assigned, print original character
+                        to_cout = map_to_print[y * xs + x]; 
+                }
+                out_stream << to_cout; //write to file
+            }
+            out_stream << endl; //line end
         }
-        out_stream << "\n"; //line end
+    }
+    else{
+        out_stream << this->xs << endl << this->ys << endl;
+        
+        for (int y = 0; y < this->ys; y++) {
+            for (int x = 0; x < this->xs; x++) {
+                out_stream << map_to_print[y * this->xs + x]; //write to file
+            }
+            out_stream << endl; //line end
+        }
     }
 }
 

@@ -94,6 +94,26 @@ int get_num(int min, int max, string prompt = ""){
     return num;
 }
 
+void solve(maze_solver* solver){
+    system("clear");
+    chrono::steady_clock::time_point start = chrono::steady_clock::now();
+    solver->solve(false);
+    chrono::steady_clock::time_point end = chrono::steady_clock::now();
+    solver->print(1);
+    cout << "Time elapsed: " << std::chrono::duration_cast<std::chrono::microseconds>(end-start).count() << " µs" << endl;
+    //delete solver;
+}
+
+void solve_visualy(maze_solver* solver){
+    chrono::steady_clock::time_point start = chrono::steady_clock::now();
+    solver->solve(true);
+    chrono::steady_clock::time_point end = chrono::steady_clock::now();
+    system("clear");
+    maze::gotoxy(0,0);
+    solver->print(1);
+    cout << "Time elapsed: " << std::chrono::duration_cast<std::chrono::milliseconds>(end-start).count() << " ms" << endl;
+    //delete solver;
+}
 
 /**
  *runtime UI WIP
@@ -109,11 +129,13 @@ void menu()
     string prompt;
 
     maze* blud = nullptr;
-    breadth_first_maze* bf_blud = nullptr;
-    empty_path_maze* ep_blud = nullptr;
+    maze_solver* solver = nullptr;
 
-    std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
-    std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+    //breadth_first_maze* bf_blud = nullptr;
+    //empty_path_maze* ep_blud = nullptr;
+
+    // std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
+    // std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
 
     while (current_state != State::exit) {
         switch (current_state) {
@@ -191,8 +213,10 @@ void menu()
                 cout << "2. Solve breadth-first" << endl;
                 cout << "3. Solve breadth-first visualy" <<endl;
                 cout << "4. Solve empty-path" << endl;
-                cout << "5. Solve empty-path visualy" <<endl;
-                cout << "6. Back" << endl;
+                cout << "5. Solve empty-path visualy" << endl;
+                cout << "6. Save original" << endl;
+                cout << "7. Save solution" << endl;
+                cout << "8. Back" << endl;
                 cin >> mm_input;
                 
                 if(!check_num()) break;
@@ -203,48 +227,60 @@ void menu()
                         blud->print(1);
                         break;
                     case 2:
-                        bf_blud = new breadth_first_maze(*blud);
-                        system("clear");
-                        start = std::chrono::steady_clock::now();
-                        bf_blud->solve(false);
-                        end = std::chrono::steady_clock::now();
-                        bf_blud->print(1);
-                        cout << "Time elapsed: " << std::chrono::duration_cast<std::chrono::microseconds>(end-start).count() << " µs" << endl;
-                        bf_blud->~breadth_first_maze();
+                        if(solver != nullptr) delete solver;
+                        solver = new breadth_first_maze(*blud);
+                        solve(solver);
                         break;
                     case 3:
-                        bf_blud = new breadth_first_maze(*blud);
-                        start = std::chrono::steady_clock::now();
-                        bf_blud->solve(true);
-                        end = std::chrono::steady_clock::now();
-                        system("clear");
-                        maze::gotoxy(0,0);
-                        bf_blud->print(1);
-                        cout << "Time elapsed: " << std::chrono::duration_cast<std::chrono::milliseconds>(end-start).count() << " ms" << endl;
-                        bf_blud->~breadth_first_maze();
+                        if(solver != nullptr) delete solver;
+                        solver = new breadth_first_maze(*blud);
+                        solve_visualy(solver);
                         break;
                     case 4:
-                        ep_blud = new empty_path_maze(*blud);
-                        system("clear");
-                        start = std::chrono::steady_clock::now();
-                        ep_blud->solve(false);
-                        end = std::chrono::steady_clock::now();
-                        ep_blud->print(1);
-                        cout << "Time elapsed: " << std::chrono::duration_cast<std::chrono::microseconds>(end-start).count() << " µs" << endl;
-                        ep_blud->~empty_path_maze();
+                        if(solver != nullptr) delete solver;
+                        solver = new empty_path_maze(*blud);
+                        solve(solver);
+                        // system("clear");
+                        // start = std::chrono::steady_clock::now();
+                        // solver->solve(false);
+                        // end = std::chrono::steady_clock::now();
+                        // solver->print(1);
+                        // cout << "Time elapsed: " << std::chrono::duration_cast<std::chrono::microseconds>(end-start).count() << " µs" << endl;
+                        // delete solver;
                         break;
                     case 5:
-                        ep_blud = new empty_path_maze(*blud);
-                        start = std::chrono::steady_clock::now();
-                        ep_blud->solve(true);
-                        end = std::chrono::steady_clock::now();
-                        system("clear");
-                        maze::gotoxy(0,0);
-                        ep_blud->print(1);
-                        cout << "Time elapsed: " << std::chrono::duration_cast<std::chrono::milliseconds>(end-start).count() << " ms" << endl;
-                        ep_blud->~empty_path_maze();
+                        if(solver != nullptr) delete solver;
+                        solver = new empty_path_maze(*blud);
+                        solve_visualy(solver);
+                        // start = std::chrono::steady_clock::now();
+                        // solver->solve(true);
+                        // end = std::chrono::steady_clock::now();
+                        // system("clear");
+                        // maze::gotoxy(0,0);
+                        // solver->print(1);
+                        // cout << "Time elapsed: " << std::chrono::duration_cast<std::chrono::milliseconds>(end-start).count() << " ms" << endl;
+                        // delete solver;
                         break;
                     case 6:
+                        cout << "Path to save to: " << endl;
+                        cin >> pth;
+                        blud->print_to_file(pth);
+                        system("clear");
+                        cout << "\033[32mSave succesfull!\033[0m" << endl;
+                        break;
+                    case 7:
+                        if(solver == nullptr){
+                            system("clear");
+                            cout << "\033[31mSolve it first!\033[0m" << endl;
+                            break;
+                        }
+                        cout << "Path to save to: " << endl;
+                        cin >> pth;
+                        solver->print_to_file(pth,true);
+                        system("clear");
+                        cout << "\033[32mSave succesfull!\033[0m" << endl;
+                        break;
+                    case 8:
                         system("clear");
                         current_state = State::main_menu;
                         break;
